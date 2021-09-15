@@ -2,6 +2,7 @@ package com.in3des.testCRUD.services;
 
 import com.in3des.testCRUD.model.enums.Status;
 import com.in3des.testCRUD.model.GameItem;
+import com.in3des.testCRUD.services.impl.GameItemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,13 @@ import java.util.stream.Collectors;
 public class GameItemCheckDate {
 
     @Autowired
-    private GameItemServices gameItemServices;
+    private GameItemServiceImpl gameItemServiceImpl;
 
     private static String currentDate = "01-01-2011";
 
 
-    public List<GameItem> gameItemCheckDate(GameItemServices gameItemServices) {
-        List<GameItem> checkList = gameItemServices.listAll();
+    public List<GameItem> gameItemCheckDate(GameItemServiceImpl gameItemServiceImpl) {
+        List<GameItem> checkList = gameItemServiceImpl.listAll();
         System.out.println("<<< --- Check Date results: --- >>>");
         List<GameItem> updateList = checkList.parallelStream()
                 .filter(gameItem -> gameItem.getReleaseDate().equals(currentDate) && gameItem.getStatus().equals(Status.PRODUCTION))
@@ -30,17 +31,17 @@ public class GameItemCheckDate {
         return updateList;
     }
 
-    public void gameItemStatusUpdate(GameItemServices gameItemServices) {
-        List<GameItem> updateList = gameItemCheckDate(gameItemServices);
+    public void gameItemStatusUpdate(GameItemServiceImpl gameItemServiceImpl) {
+        List<GameItem> updateList = gameItemCheckDate(gameItemServiceImpl);
         for (GameItem gameItem: updateList) {
             gameItem.setStatus(Status.RELEASE);
-            gameItemServices.save(gameItem);
+            gameItemServiceImpl.save(gameItem);
         }
         System.out.printf("<<< --- Status successfully updated for %d GameItems --- >>>", updateList.size());
     }
 
     @PostConstruct
     private void checkTestGameItem() {
-        gameItemStatusUpdate(gameItemServices);
+        gameItemStatusUpdate(gameItemServiceImpl);
     }
 }

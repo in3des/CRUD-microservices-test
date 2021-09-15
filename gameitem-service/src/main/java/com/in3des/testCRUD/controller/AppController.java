@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.in3des.testCRUD.services.GameItemServices;
+import com.in3des.testCRUD.services.impl.GameItemServiceImpl;
 
 @Controller
 public class AppController {
 
 	@Autowired
-	GameItemServices service;
+	GameItemServiceImpl service;
 	
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
@@ -35,7 +35,7 @@ public class AppController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public String saveGameItem(@ModelAttribute ("student") GameItem gameItem) {
+	public String saveGameItem(@ModelAttribute ("game_item") GameItem gameItem) {
 		service.save(gameItem);
 		return "redirect:/";
 	}
