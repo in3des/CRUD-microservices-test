@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit GameItem</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Edit GameItem</h1>
+		<br />
+		<form action="#" th:action="@{/save}" th:object="${gameItem}"
+			method="post">
+			<table border="0">
+				<tr>
+					<td>GameItem ID:</td>
+					<td><input type="text" th:field="*{id}" readonly="readonly" />
+					</td>
+				</tr>
+				<tr>
+					<td>GameItem Name:</td>
+					<td><input type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td>GameItem Status:</td>
+<!--					<td><input type="text" th:field="*{status}" /></td>-->
+					<td>
+					<select class="form-control" name="status" id="status" size="2">
+						<option th:field="*{status}" th:value="'RELEASE'" th:text="RELEASE"></option>
+						<option th:field="*{status}" th:value="'PRODUCTION'" th:text="PRODUCTION"></option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>GameItem Release Date:</td>
+					<td><input type="text" th:field="*{releaseDate}" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><button type="submit">Save</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
