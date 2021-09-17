@@ -9,10 +9,7 @@
 		<h1>GameItem List</h1>
 
 		<a href="/new">Add New GameItem</a>
-		&nbsp;&nbsp;&nbsp;
-		<a href="http://localhost:8086/status/update">Update Status GameItem</a>
-		&nbsp;&nbsp;&nbsp;
-		<a href="/checkstatus">Update Status GameItem Eureka</a>
+		<br/><br/>
 
 		<table border="1" cellpadding="10">
 			<thead>
@@ -39,5 +36,38 @@
 			</tbody>
 		</table>
 	</div>
+
+	<div align="center">
+
+		<br/>
+		<button onclick="(()=>{fetch('/checkstatus')
+			.then(()=>{window.location.reload()})})()">CHECK Status</button>
+
+
+<!--		<br/>-->
+<!--		<form target="ignore" action="http://localhost:8086/status/update" method="get">-->
+<!--				<button onclick="(()=>{-->
+<!--					console.log('test');-->
+<!--					setTimeout(() => {window.location.reload()-->
+<!--					return false;-->
+<!--					}, 2000);-->
+<!--				})()" type="submit">CHECK Status 33</button>-->
+<!--			<iframe name="ignore" src="http://localhost:8085/" style="display:none;"></iframe>-->
+<!--		</form>-->
+
+<!--		<br/>-->
+<!--		<button onclick="(()=>{fetch('http://localhost:8086/status/update')-->
+<!--				.then(()=>{window.location.reload()})})()">CHECK Status</button>-->
+
+<!--		<br/>-->
+<!--		<button onclick="(()=>{fetch('/checkstatus');-->
+<!--			console.log('wwww');-->
+<!--				})()">CHECK Status 22</button>-->
+
+
+
+
+	</div>
+
 </body>
 </html>

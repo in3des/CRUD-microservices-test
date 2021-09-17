@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.in3des.gameitemservice.model.GameItem;
+import com.in3des.gameitemservice.model.GameItemList;
 import com.in3des.gameitemservice.model.enums.Status;
 import com.in3des.gameitemservice.services.GameItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.in3des.gameitemservice.repository.GameItemRepository;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.annotation.PostConstruct;
 
@@ -20,6 +23,9 @@ public class GameItemServiceImpl implements GameItemService {
 	public GameItemServiceImpl(GameItemRepository repo) {
 		this.repo = repo;
 	}
+
+	@Autowired
+	private WebClient.Builder webClientBuilder;
 
 	@Override
 //	@Transactional
@@ -80,6 +86,5 @@ public class GameItemServiceImpl implements GameItemService {
 	}
 
 
-//
 
 }

@@ -17,6 +17,9 @@ public class GameItemServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GameItemServiceApplication.class, args);
+
+
+
 	}
 
 }

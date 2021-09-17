@@ -6,9 +6,7 @@ import com.in3des.statusservice.models.Movie;
 import com.in3des.statusservice.models.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -32,7 +30,8 @@ public class GameItemCheckDate {
         return new Movie(movieId, "Test Movie Name");
     }
 
-    @RequestMapping("/update")
+    @CrossOrigin(origins = "http://localhost:8085")
+    @GetMapping("/update")
     public List<GameItem> updateGameItemStatus() {
 
         GameItemList allList = webClientBuilder.build()
