@@ -11,6 +11,7 @@
     <modules>
         <module>gameitem-service</module>
         <module>status-service</module>
+        <module>discovery-server</module>
     </modules>
 
     <properties>
