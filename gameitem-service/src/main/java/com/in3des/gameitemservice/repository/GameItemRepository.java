@@ -11,4 +11,5 @@ public interface GameItemRepository extends JpaRepository<GameItem, Long> {
 
     List<GameItem> findAllByOrderByIdAsc();
 
+//    void update(GameItem gameItem);
 }

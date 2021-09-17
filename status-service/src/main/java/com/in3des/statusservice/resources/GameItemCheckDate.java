@@ -1,8 +1,7 @@
-package com.in3des.gameitemservice.services;
+package com.in3des.statusservice.resources;
 
-import com.in3des.gameitemservice.model.enums.Status;
-import com.in3des.gameitemservice.model.GameItem;
-import com.in3des.gameitemservice.services.impl.GameItemServiceImpl;
+import com.in3des.statusservice.models.GameItem;
+import com.in3des.statusservice.models.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

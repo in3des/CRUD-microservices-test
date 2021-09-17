@@ -40,6 +40,12 @@ public class GameItemServiceImpl implements GameItemService {
 		repo.save(gameItem);
 	}
 
+//	@Override
+////	@Transactional(readOnly = true)
+//	public void update(GameItem gameItem) {
+//		repo.update(gameItem);
+//	}
+
 	@Override
 //	@Transactional(readOnly = true)
 	public GameItem get(Long id) {

@@ -17,9 +17,14 @@ import com.in3des.gameitemservice.services.impl.GameItemServiceImpl;
 @Controller
 public class AppController {
 
+
+	private final GameItemServiceImpl service;
+
 	@Autowired
-	GameItemServiceImpl service;
-	
+	public AppController(GameItemServiceImpl service) {
+		this.service = service;
+	}
+
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
 		List<GameItem> listGameItem = service.listAll();
@@ -41,8 +46,8 @@ public class AppController {
 	}
 	@RequestMapping("edit/{id}")
 	public ModelAndView showEditGameItemPage(@PathVariable (name="id") Long id) {
-		ModelAndView mav=new ModelAndView("edit_gameitem");
-		GameItem gameItem =service.get(id);
+		ModelAndView mav = new ModelAndView("edit_gameitem");
+		GameItem gameItem = service.get(id);
 		mav.addObject("gameItem", gameItem);
 		return mav;
 	}

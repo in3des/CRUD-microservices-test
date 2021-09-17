@@ -12,6 +12,8 @@ public interface GameItemService {
 
     void save(GameItem gameItem);
 
+//    void update(GameItem gameItem);
+
     GameItem get(Long id);
 
     void delete(Long id);
