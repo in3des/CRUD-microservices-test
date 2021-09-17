@@ -1,46 +1,69 @@
 package com.in3des.statusservice.resources;
 
 import com.in3des.statusservice.models.GameItem;
+import com.in3des.statusservice.models.GameItemList;
+import com.in3des.statusservice.models.Movie;
 import com.in3des.statusservice.models.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@RestController
+@RequestMapping("/status")
 public class GameItemCheckDate {
 
     @Autowired
-    private GameItemServiceImpl gameItemServiceImpl;
+    private WebClient.Builder webClientBuilder;
 
     private static String currentDate = "01-01-2011";
 
+    @RequestMapping("/{movieId}")
+    public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
 
-    public List<GameItem> gameItemCheckDate(GameItemServiceImpl gameItemServiceImpl) {
-        List<GameItem> checkList = gameItemServiceImpl.listAll();
-        System.out.println("<<< --- Check Date results: --- >>>");
-        List<GameItem> updateList = checkList.parallelStream()
-                .filter(gameItem -> gameItem.getReleaseDate().equals(currentDate) && gameItem.getStatus().equals(Status.PRODUCTION))
-//                .forEach(System.out::println);
-                .collect(Collectors.toList());
-        System.out.println(updateList);
-        System.out.println("<<< --- Check Date END --- >>>");
-        return updateList;
+        return new Movie(movieId, "Test Movie Name");
     }
 
-    public void gameItemStatusUpdate(GameItemServiceImpl gameItemServiceImpl) {
-        List<GameItem> updateList = gameItemCheckDate(gameItemServiceImpl);
+    @RequestMapping("/update")
+    public List<GameItem> updateGameItemStatus() {
+
+        GameItemList allList = webClientBuilder.build()
+                .get()
+                .uri("http://gameitem-service/gameitem/listall")
+//                    .uri("http://localhost:8085/gameitem/listall")
+                .retrieve()
+                .bodyToMono(GameItemList.class)
+                .block();
+
+        List<GameItem> updateList = allList.getGameItemList().stream()
+                .filter(gameItem -> gameItem.getReleaseDate().equals(currentDate) && gameItem.getStatus().equals(Status.PRODUCTION))
+                .collect(Collectors.toList());
+
         for (GameItem gameItem: updateList) {
             gameItem.setStatus(Status.RELEASE);
-            gameItemServiceImpl.save(gameItem);
         }
-        System.out.printf("<<< --- Status successfully updated for %d GameItems --- >>>", updateList.size());
+
+        for (GameItem item: updateList) {
+            webClientBuilder.build()
+                    .put()
+                    .uri("http://gameitem-service/gameitem/update")
+                    .body(Mono.just(item), GameItem.class)
+                    .retrieve()
+                    .bodyToMono(GameItem.class)
+                    .block();
+        }
+
+            return updateList;
+
     }
 
-    @PostConstruct
-    private void checkTestGameItem() {
-        gameItemStatusUpdate(gameItemServiceImpl);
-    }
+
 }
