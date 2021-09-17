@@ -16,9 +16,6 @@ import java.util.NoSuchElementException;
 @RequestMapping("/gameitem")
 public class AppRestController {
 
-    @Autowired
-    private WebClient.Builder webClientBuilder;
-
     private final GameItemServiceImpl service;
 
     @Autowired
@@ -66,7 +63,6 @@ public class AppRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 
 }

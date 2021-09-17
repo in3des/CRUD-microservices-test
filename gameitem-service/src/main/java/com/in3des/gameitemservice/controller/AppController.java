@@ -3,6 +3,7 @@ package com.in3des.gameitemservice.controller;
 import java.util.List;
 
 import com.in3des.gameitemservice.model.GameItem;
+import com.in3des.gameitemservice.model.GameItemList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.in3des.gameitemservice.services.impl.GameItemServiceImpl;
@@ -17,6 +19,8 @@ import com.in3des.gameitemservice.services.impl.GameItemServiceImpl;
 @Controller
 public class AppController {
 
+	@Autowired
+	private WebClient.Builder webClientBuilder;
 
 	private final GameItemServiceImpl service;
 
@@ -56,5 +60,21 @@ public class AppController {
 		service.delete(id);
 		return "redirect:/";
 	}
-	
+
+	@RequestMapping("/checkstatus")
+	public String checkGameItemStatus() {
+
+		// не отрабатывает в такой связке, пока не нашел схожего примера
+		webClientBuilder.build()
+				.get()
+//				.uri("http://status-service/status/update")
+				.uri("http://localhost:8086/status/update")
+				.retrieve()
+				.bodyToMono(Void.class);
+//				.block();
+
+		return "redirect:/";
+
+	}
+
 }
